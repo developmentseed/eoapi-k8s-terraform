@@ -1,8 +1,10 @@
 region = "us-west-2"
 
-cluster_name = "eoapi-v1"
+# name gets suffixed with `-${cluster_version}`
+cluster_name = "eoapi"
 
-buckets = ["eoapi-v1-data-inputs"]
+# bucket names get suffixed with `-${cluster_name}-${cluster_version}`
+buckets = ["data-inputs"]
 
 prometheus_hostname = ""
 

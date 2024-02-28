@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "assume_role_with_oidc" {
 # Setup the EBS CSI Driver addon - https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
 # Required for EBS volumes to be provisioned and attached
 resource "aws_iam_role" "ebs_provisioner" {
-  name               = "${var.cluster_name}-eks-ebs-provisioner"
+  name               = "${var.cluster_name}-${var.cluster_version}-eks-ebs-provisioner"
   assume_role_policy = data.aws_iam_policy_document.assume_role_with_oidc.json
   permissions_boundary = var.permissions_boundary
 }

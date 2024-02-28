@@ -1,4 +1,4 @@
 resource "aws_s3_bucket" "buckets" {
   for_each = toset(var.buckets)
-  bucket   = each.key
+  bucket   = "${each.key}-${var.cluster_name}-${var.cluster_version}"
 }

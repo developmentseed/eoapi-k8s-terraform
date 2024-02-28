@@ -12,6 +12,14 @@ variable "cluster_name" {
   EOT
 }
 
+variable "cluster_version" {
+  type        = string
+  default     = "v1"
+  description = <<-EOT
+  A version string that we append to certain resources to make them unique
+  EOT
+}
+
 variable "aws_tags" {
   type        = map(string)
   default     = {}
