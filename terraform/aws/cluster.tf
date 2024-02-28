@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "cluster_control_plane" {
-  name                 = "${var.cluster_name}-eks-cluster-control-plane"
+  name                 = "${var.cluster_name}-${var.cluster_version}-eks-cluster-control-plane"
   assume_role_policy   = data.aws_iam_policy_document.assume_role.json
   permissions_boundary = var.permissions_boundary
 }
@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "cluster_controle_plane" {
 
 # Setup a cluster in the default VPC with default subnets
 resource "aws_eks_cluster" "cluster" {
-  name     = var.cluster_name
+  name     = "${var.cluster_name}-${var.cluster_version}"
   role_arn = aws_iam_role.cluster_control_plane.arn
 
   vpc_config {
@@ -54,7 +54,7 @@ resource "aws_iam_openid_connect_provider" "cluster_oidc" {
 module "cluster_autoscaler_irsa" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name = "${var.cluster_name}_cluster_autoscaler"
+  role_name = "${var.cluster_name}_${var.cluster_version}_cluster_autoscaler"
   role_permissions_boundary_arn = var.permissions_boundary
 
   attach_cluster_autoscaler_policy = true

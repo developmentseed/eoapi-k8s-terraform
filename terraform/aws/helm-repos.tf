@@ -22,7 +22,7 @@ resource "helm_release" "autoscaler" {
 
   set {
     name  = "autoDiscovery.clusterName"
-    value = var.cluster_name
+    value = "${var.cluster_name}-${var.cluster_version}"
   }
 
   set {
