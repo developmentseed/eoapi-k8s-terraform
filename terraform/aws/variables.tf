@@ -125,4 +125,3 @@ variable "prometheus_version" {
   Version of the grafana helm chart to install
   EOT
 }
-# NOTE: we might need the 'aws-load-balancer-controller' too, we'll see
