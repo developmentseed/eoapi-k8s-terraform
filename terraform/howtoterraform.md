@@ -8,8 +8,8 @@ $ tfenv list
   1.1.4
 ```
 
-$ tfenv install 1.6.0
-$ tfenv use 1.3.9
+4. tfenv install 1.6.0
+5. tfenv use 1.3.9
 3. manually create your TF state bucket name listed in `terraform/aws/main.tf` or choose a new one and change `terraform/aws/main.tf`
 4. cp vars/default vars/(your-profile-name)
 5. AWS_PROFILE=(profile-name) terraform init
