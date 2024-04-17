@@ -104,13 +104,6 @@ variable "prometheus_hostname" {
   EOT
 }
 
-variable "buckets" {
-  default     = []
-  description = <<-EOT
-  List of S3 Buckets to create that might be used in workflows.
-  EOT
-}
-
 variable "cluster_autoscaler_version" {
   default     = "9.35.0"
   description = <<-EOT
