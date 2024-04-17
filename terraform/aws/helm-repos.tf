@@ -133,3 +133,21 @@ resource "helm_release" "cert_manager" {
     aws_eks_cluster.cluster
   ]
 }
+
+
+resource "helm_release" "efs_storage_class" {
+  count            = var.enable_efs ? 1: 0
+  name             = "efs-storage-class"
+  chart            = "../../helm-charts/efs-storage-class"
+  create_namespace = false
+
+  set {
+    name  = "efsFileSystemId"
+    value = "${aws_efs_file_system.efs[0].id}"
+  }
+
+  wait = true
+  depends_on = [
+    aws_eks_cluster.cluster,
+  ]
+}

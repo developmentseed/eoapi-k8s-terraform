@@ -75,6 +75,11 @@ variable "max_instances" {
   EOT
 }
 
+variable "enable_efs" {
+  default = false
+  type    = bool
+}
+
 variable "prometheus_disk_size" {
   default     = "16Gi"
   description = <<-EOT
