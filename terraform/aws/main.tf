@@ -1,9 +1,9 @@
 terraform {
   required_version = ">= 1.7.4"
   backend "s3" {
-    bucket = "eoapi-tfstate-v1"
+    bucket = "eoapi-tfstate-v2-ogc"
     key    = "terraform"
-    region = "us-west-2"
+    region = "us-east-1"
   }
 
   required_providers {

@@ -75,6 +75,11 @@ variable "max_instances" {
   EOT
 }
 
+variable "enable_efs" {
+  default = false
+  type    = bool
+}
+
 variable "prometheus_disk_size" {
   default     = "16Gi"
   description = <<-EOT
@@ -96,13 +101,6 @@ variable "prometheus_hostname" {
   The DNS host at which the prometheus server should be reachable.
 
   Is just passed along to prometheus.server.ingress.hosts.
-  EOT
-}
-
-variable "buckets" {
-  default     = []
-  description = <<-EOT
-  List of S3 Buckets to create that might be used in workflows.
   EOT
 }
 
