@@ -18,7 +18,7 @@ resource "aws_iam_role" "cluster_control_plane" {
   permissions_boundary = var.permissions_boundary
 }
 
-resource "aws_iam_role_policy_attachment" "cluster_controle_plane" {
+resource "aws_iam_role_policy_attachment" "cluster_control_plane" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster_control_plane.name
 }
@@ -35,7 +35,7 @@ resource "aws_eks_cluster" "cluster" {
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
-    aws_iam_role_policy_attachment.cluster_controle_plane
+    aws_iam_role_policy_attachment.cluster_control_plane
   ]
 }
 
