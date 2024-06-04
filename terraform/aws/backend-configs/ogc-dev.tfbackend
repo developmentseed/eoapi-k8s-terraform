@@ -1,0 +1,3 @@
+bucket = "eoapi-tfstate-v2-ogc"
+key    = "terraform"
+region = "us-east-1"
