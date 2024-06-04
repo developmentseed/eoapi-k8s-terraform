@@ -4,6 +4,7 @@ resource "aws_s3_bucket" "data_stores" {
 }
 
 resource "aws_iam_policy" "eks_s3_access" {
+  count      = length(var.bucket_names) > 0 ? 1 : 0
   name   = "EKSS3AccessPolicy"
   policy = jsonencode({
     Version = "2012-10-17"
@@ -22,7 +23,12 @@ resource "aws_iam_policy" "eks_s3_access" {
   })
 }
 
+locals {
+  s3_policy_arn = length(var.bucket_names) > 0 ? aws_iam_policy.eks_s3_access[0].arn : ""
+}
+
 resource "aws_iam_role_policy_attachment" "s3_access" {
+  count      = length(var.bucket_names) > 0 ? 1 : 0
   role       = aws_iam_role.nodegroup.name
-  policy_arn = aws_iam_policy.eks_s3_access.arn
+  policy_arn = local.s3_policy_arn
 }
