@@ -1,11 +1,9 @@
 terraform {
   required_version = ">= 1.7.4"
 
-  backend "s3" {
-    bucket = "eoapi-tfstate-eoepca"
-    key    = "terraform"
-    region = "us-west-2"
-  }
+  # you need to pass this on
+  # `terraform init -backend-config=./backend-configs/<name>.tfbackend`
+  backend "s3" {}
 
   required_providers {
     aws = {

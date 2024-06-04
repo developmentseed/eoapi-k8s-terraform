@@ -48,6 +48,15 @@ variable "aws_vpc" {
   EOT
 }
 
+variable "bucket_names" {
+  description = <<-EOT
+  list of s3 buckets to create that you might need the nodes to have access to
+  EOT
+  type        = list(string)
+  default     = []
+}
+
+
 variable "instance_type" {
   default     = "t3.large"
   description = <<-EOT
