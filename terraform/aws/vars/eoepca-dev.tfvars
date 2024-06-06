@@ -5,3 +5,4 @@ cluster_version = "dev"
 prometheus_hostname = ""
 instance_type = "t3.xlarge"
 enable_efs = false
+bucket_names = ["eoapidb-dev-backup",]
