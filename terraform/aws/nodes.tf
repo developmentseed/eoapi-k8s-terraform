@@ -14,33 +14,6 @@ resource "aws_iam_role" "nodegroup" {
   })
 }
 
-
-resource "aws_s3_bucket" "data_store" {
-  bucket = "ogc-veda-data-store"
-  # default is private
-}
-
-resource "aws_iam_policy" "eks_s3_access" {
-  name   = "EKSS3AccessPolicy"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "s3:*"
-        ]
-        Effect   = "Allow"
-        Resource = "${aws_s3_bucket.data_store.arn}/*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "s3_access" {
-  role       = aws_iam_role.nodegroup.name
-  policy_arn = aws_iam_policy.eks_s3_access.arn
-}
-
 resource "aws_iam_role_policy_attachment" "node_worker_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.nodegroup.name
