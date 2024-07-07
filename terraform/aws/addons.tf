@@ -31,7 +31,7 @@ resource "aws_eks_addon" "ebs_provisioner" {
   addon_name                  = "aws-ebs-csi-driver"
   # Fetched version for current version from
   # eksctl utils describe-addon-versions --kubernetes-version <kubernetes-version>
-  addon_version               = "v1.20.0-eksbuild.1"
+  addon_version               = "v1.32.0-eksbuild.1"
   resolve_conflicts_on_create = "OVERWRITE"
   service_account_role_arn  = aws_iam_role.ebs_provisioner.arn
   depends_on = [

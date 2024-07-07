@@ -5,7 +5,8 @@ metadata:
 parameters:
   provisioningMode: efs-ap
   fileSystemId: "{{- .Values.efsFileSystemId }}"
-  directoryPerms: "700"
-  gidRangeStart: "1000"
-  gidRangeEnd: "2000"
+  directoryPerms: "777"
 provisioner: "efs.csi.aws.com"
+volumeBindingMode: "WaitForFirstConsumer"
+reclaimPolicy: "Retain"
+allowVolumeExpansion: true

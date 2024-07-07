@@ -9,3 +9,7 @@ resource "aws_efs_mount_target" "efs" {
   subnet_id        = each.value
   security_groups  = [aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id]
 }
+
+output "nfs_server_dns" {
+  value = aws_efs_file_system.efs[0].dns_name
+}
