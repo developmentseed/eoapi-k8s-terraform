@@ -43,7 +43,62 @@ resource "helm_release" "autoscaler" {
   ]
 }
 
+resource "helm_release" "efs_storage_class" {
+  count            = var.enable_efs ? 1: 0
+  name             = "efs-storage-class"
+  chart            = "../../helm-charts/efs-storage-class"
+  create_namespace = false
+
+  set {
+    name  = "efsFileSystemId"
+    value = "${aws_efs_file_system.efs[0].id}"
+  }
+
+  wait = true
+  depends_on = [
+    aws_eks_cluster.cluster,
+  ]
+}
+
+resource "helm_release" "ingress" {
+  name             = "ingress"
+  repository       = "https://kubernetes.github.io/ingress-nginx"
+  chart            = "ingress-nginx"
+  namespace        = "support"
+  create_namespace = true
+  version          = var.nginx_ingress_version
+
+  wait = true
+  depends_on = [
+    aws_eks_cluster.cluster
+  ]
+}
+
+resource "helm_release" "cert_manager" {
+  name             = "cert-manager"
+  repository       = "https://charts.jetstack.io"
+  chart            = "cert-manager"
+  namespace        = "cert-manager"
+  create_namespace = true
+  version          = var.cert_manager_version
+
+  set {
+    # We can manage CRDs from inside Helm itself, no need for a separate kubectl apply
+    name  = "installCRDs"
+    value = true
+  }
+  wait = true
+  depends_on = [
+    aws_eks_cluster.cluster
+  ]
+}
+
+##############################
+# SUPPORT OPTIONS
+##############################
+
 resource "helm_release" "prometheus" {
+  count            = var.enable_support_helm_charts ? 1 : 0
   name             = "prometheus"
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "prometheus"
@@ -101,53 +156,18 @@ resource "helm_release" "prometheus" {
   ]
 }
 
-resource "helm_release" "ingress" {
-  name             = "ingress"
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  namespace        = "support"
-  create_namespace = true
-  version          = var.nginx_ingress_version
+
+resource "helm_release" "metrics-server" {
+  count            = var.enable_support_helm_charts ? 1 : 0
+  name             = "metrics-server"
+  repository       = "https://charts.bitnami.com/bitnami"
+  chart            = "metrics-server"
+  version          = var.metrics_server_version
+  namespace        = "kube-system"
 
   wait = true
+
   depends_on = [
     aws_eks_cluster.cluster
-  ]
-}
-
-resource "helm_release" "cert_manager" {
-  name             = "cert-manager"
-  repository       = "https://charts.jetstack.io"
-  chart            = "cert-manager"
-  namespace        = "cert-manager"
-  create_namespace = true
-  version          = var.cert_manager_version
-
-  set {
-    # We can manage CRDs from inside Helm itself, no need for a separate kubectl apply
-    name  = "installCRDs"
-    value = true
-  }
-  wait = true
-  depends_on = [
-    aws_eks_cluster.cluster
-  ]
-}
-
-
-resource "helm_release" "efs_storage_class" {
-  count            = var.enable_efs ? 1: 0
-  name             = "efs-storage-class"
-  chart            = "../../helm-charts/efs-storage-class"
-  create_namespace = false
-
-  set {
-    name  = "efsFileSystemId"
-    value = "${aws_efs_file_system.efs[0].id}"
-  }
-
-  wait = true
-  depends_on = [
-    aws_eks_cluster.cluster,
   ]
 }

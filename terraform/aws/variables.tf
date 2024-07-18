@@ -134,9 +134,21 @@ variable "nginx_ingress_version" {
   EOT
 }
 
+variable "enable_support_helm_charts" {
+  default = false
+  type    = bool
+}
+
 variable "prometheus_version" {
   default     = "25.3.1"
   description = <<-EOT
   Version of the grafana helm chart to install
+  EOT
+}
+
+variable "metrics_server_version" {
+  default     = "7.2.8"
+  description = <<-EOT
+  Version of the metrics-server
   EOT
 }
